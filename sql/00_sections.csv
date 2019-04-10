@@ -1,0 +1,50 @@
+-- Add or remove new Sections in this file. No need to update anywhere else.
+-- Use "," as field separator
+-- Format: Section ID [1a - 9z], File Sufix Name, Section Description, Skip Variables (If last field is empty or its variables return NULL, sql WILL be executed)
+--
+1a,configuration.sql,'Database Configuration'
+1b,scheduler.sql,'Scheduler'
+1c,maintasks.sql,'Maintenance Tasks',&&skip_ver_le_10.
+1d,opatch.sql,'Patch Info'
+1e,memory.sql,'Memory'
+1f,resources.sql,'Resources (as per AWR and MEM)'
+1g,features.sql,'Options - Usage Statistics'
+--
+2a,admin.sql,'Database Administration'
+2b,storage.sql,'Storage'
+2c,asm.sql,'Automatic Storage Management (ASM)'
+2d,rman.sql,'Backup and Recovery'
+2e,security.sql,'User Security Configuration'
+2f,profiles.sql,'DB Profiles'
+2g,secsystem.sql,'System Privilege Analyses'
+2h,secroles.sql,'Roles Privilege Analyses'
+--
+3a,resource_mgm.sql,'Database Resource Management (DBRM)'
+3b,plan_stability.sql,'Plan Stability'
+3c,cbo_stats.sql,'Cost-based Optimizer (CBO) Statistics'
+3d,performance.sql,'Performance Summaries'
+3e,os_stats.sql,'Operating System (OS) Statistics History'
+3f,sessions.sql,'Sessions'
+3g,dataguard.sql,'Data Guard Primary Site'
+3h,goldengate.sql,'Golden Gate'
+--
+4a,sga_stats.sql,'System Global Area (SGA) Statistics History'
+4b,pga_stats.sql,'Program Global Area (PGA) Statistics History'
+4c,mem_stats.sql,'Memory Statistics History'
+4d,time_model.sql,'System Time Model'
+--
+5a,ash.sql,'Active Session History (ASH)'
+--
+6a,ash_class.sql,'Active Session History (ASH) - Top Timed Classes'
+6b,ash_event.sql,'Active Session History (ASH) - Top Timed Events'
+6c,ash_sql.sql,'Active Session History (ASH) - Top SQL'
+--
+7a,network.sql,'Network'
+7b,oscheck.sql,'OS Security Checks'
+--
+8a,mig.sql,'Migration Options',&&skip_run_8.
+--
+9a,shape.sql,'Shape - Recommendations',&&skip_run_9.
+--
+-- Note: You can optionally have sections 0a_pre.sql and 0b_post.sql (not defined on this csv).
+-- They are not mandatory and they instruct moat to run only once a initial sql before all of them (0a) or after all of them (0b).
