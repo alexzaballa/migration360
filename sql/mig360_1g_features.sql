@@ -1,3 +1,23 @@
+/******************************************************************************************/
+
+DEF title = 'Feature Usage Statistics';
+@@&&fc_main_table_name. '&&is_cdb.' 'CDB_FEATURE_USAGE_STATISTICS' 'DBA_FEATURE_USAGE_STATISTICS'
+BEGIN
+  :sql_text := q'[
+SELECT /*+ &&top_level_hints. */
+       *
+  FROM &&main_table.
+ ORDER BY
+       name,
+       version
+]';
+END;
+/
+@@&&9a_pre_one.
+
+
+/******************************************************************************************/
+
 -- Detect Oracle Cloud Service Packages
 define OCS='N'
 col OCS_ new_val OCS noprint

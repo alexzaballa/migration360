@@ -20,7 +20,7 @@ DEF moat369_sw_logo_title_7 = ""
 DEF moat369_sw_logo_title_8 = ""
 
 DEF moat369_sw_vYYNN = 'v01'
-DEF moat369_sw_vrsn  = '&&moat369_sw_vYYNN. (2019-04-10)'
+DEF moat369_sw_vrsn  = '&&moat369_sw_vYYNN. (2019-07-11)'
 
 DEF moat369_sw_copyright = 'mig360 (c) 2018, All rights reserved. (Based on SQLDB360 and ESEC360)'
 DEF moat369_sw_author = 'alex.zaballa'
