@@ -309,7 +309,7 @@ COL skip_tuning clear
 
 
 /******************************************************************************/
---Ask to run eSCP
+--Ask to run ESP_COLLECT
 
 COL skip_ask_escp NEW_V skip_ask_escp
  
@@ -320,7 +320,7 @@ COL skip_ask_escp clear
 @@&&fc_def_output_file. step_run_escp_driver 'step_run_escp_driver.sql'
 SPO &&step_run_escp_driver.
 PRO SET TERM ON
-PRO ACCEPT escp_mig360_param char format a1 default 'N' PROMPT "Would you like to run eSCP after mig360? [ Y | N ] (required): "
+PRO ACCEPT escp_mig360_param char format a1 default 'N' PROMPT "Would you like to run ESP_COLLECT after mig360? [ Y | N ] (required): "
 PRO PRO
 PRO @@&&fc_set_term_off.
 SPO OFF
