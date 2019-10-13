@@ -26,7 +26,7 @@ Usage:
 
 
 1st parameter: (T)uning pack, (D)iagnostic pack, (N)one
-2nd parameter: Y/N - run or not run eSCP
+2nd parameter: Y/N - run or not run ESP_COLLECT - https://github.com/carlos-sierra/esp_collect
 3rd parameter: sections (optional) - default all sections
 4th parameter: Type of migration (To be implemented)
 
