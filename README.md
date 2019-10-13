@@ -50,8 +50,11 @@ Usage:
 2. If you need to execute MIG360 against all databases in the host, use mig360.sh:
 
    $ unzip mig360.zip
+   
    $ cd mig360
+   
    $ sh mig360.sh T Y
+   
    
 3. If you need to execute only a portion of MIG360 (i.e. a column, section or range) use 
    these commands. Notice first parameter can be set to one section (i.e. 3b),
