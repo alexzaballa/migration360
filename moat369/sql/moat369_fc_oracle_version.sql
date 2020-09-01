@@ -11,6 +11,7 @@ COL is_ver_le_11   new_v is_ver_le_11   nopri
 COL is_ver_le_12_1 new_v is_ver_le_12_1 nopri
 COL is_ver_le_12_2 new_v is_ver_le_12_2 nopri
 COL is_ver_le_12   new_v is_ver_le_12   nopri
+COL is_ver_le_18   new_v is_ver_le_18   nopri
 --
 COL is_ver_ge_9_1  new_v is_ver_ge_9_1  nopri
 COL is_ver_ge_9_2  new_v is_ver_ge_9_2  nopri
@@ -24,6 +25,7 @@ COL is_ver_ge_11   new_v is_ver_ge_11   nopri
 COL is_ver_ge_12_1 new_v is_ver_ge_12_1 nopri
 COL is_ver_ge_12_2 new_v is_ver_ge_12_2 nopri
 COL is_ver_ge_12   new_v is_ver_ge_12   nopri
+COL is_ver_ge_18   new_v is_ver_ge_18   nopri
 
 -- Set skip version variables. Value will be '--' when version is the corresponding.
 COL skip_ver_le_9_1  new_v skip_ver_le_9_1  nopri
@@ -38,6 +40,7 @@ COL skip_ver_le_11   new_v skip_ver_le_11   nopri
 COL skip_ver_le_12_1 new_v skip_ver_le_12_1 nopri
 COL skip_ver_le_12_2 new_v skip_ver_le_12_2 nopri
 COL skip_ver_le_12   new_v skip_ver_le_12   nopri
+COL skip_ver_le_18   new_v skip_ver_le_18   nopri
 --
 COL skip_ver_ge_9_1  new_v skip_ver_ge_9_1  nopri
 COL skip_ver_ge_9_2  new_v skip_ver_ge_9_2  nopri
@@ -51,63 +54,69 @@ COL skip_ver_ge_11   new_v skip_ver_ge_11   nopri
 COL skip_ver_ge_12_1 new_v skip_ver_ge_12_1 nopri
 COL skip_ver_ge_12_2 new_v skip_ver_ge_12_2 nopri
 COL skip_ver_ge_12   new_v skip_ver_ge_12   nopri
+COL skip_ver_ge_18   new_v skip_ver_ge_18   nopri
 
-select
--- Lower or Equal
-case when version <  9  or (version = 9 and release = 1)  then 'Y' else 'N' end is_ver_le_9_1,
-case when version <= 9                                    then 'Y' else 'N' end is_ver_le_9_2,
-case when version <= 9                                    then 'Y' else 'N' end is_ver_le_9,
-case when version <  10 or (version = 10 and release = 1) then 'Y' else 'N' end is_ver_le_10_1,
-case when version <= 10                                   then 'Y' else 'N' end is_ver_le_10_2,
-case when version <= 10                                   then 'Y' else 'N' end is_ver_le_10,
-case when version <  11 or (version = 11 and release = 1) then 'Y' else 'N' end is_ver_le_11_1,
-case when version <= 11                                   then 'Y' else 'N' end is_ver_le_11_2,
-case when version <= 11                                   then 'Y' else 'N' end is_ver_le_11,
-case when version <  12 or (version = 12 and release = 1) then 'Y' else 'N' end is_ver_le_12_1,
-case when version <= 12                                   then 'Y' else 'N' end is_ver_le_12_2,
-case when version <= 12                                   then 'Y' else 'N' end is_ver_le_12,
--- Greater or Equal
-case when version >= 9                                    then 'Y' else 'N' end is_ver_ge_9_1,
-case when version >  9  or (version = 9 and release = 2)  then 'Y' else 'N' end is_ver_ge_9_2,
-case when version >= 9                                    then 'Y' else 'N' end is_ver_ge_9,
-case when version >= 10                                   then 'Y' else 'N' end is_ver_ge_10_1,
-case when version >  10 or (version = 10 and release = 2) then 'Y' else 'N' end is_ver_ge_10_2,
-case when version >= 10                                   then 'Y' else 'N' end is_ver_ge_10,
-case when version >= 11                                   then 'Y' else 'N' end is_ver_ge_11_1,
-case when version >  11 or (version = 11 and release = 2) then 'Y' else 'N' end is_ver_ge_11_2,
-case when version >= 11                                   then 'Y' else 'N' end is_ver_ge_11,
-case when version >= 12                                   then 'Y' else 'N' end is_ver_ge_12_1,
-case when version >  12 or (version = 12 and release = 2) then 'Y' else 'N' end is_ver_ge_12_2,
-case when version >= 12                                   then 'Y' else 'N' end is_ver_ge_12
-from (select to_number(substr(version,1,instr(version,'.')-1)) version, to_number(substr(version,instr(version,'.')+1, instr(version,'.',1,2)-instr(version,'.')-1)) release from v$instance);
+select -- Lower or Equal
+       case when version <  9  or (version = 9 and release = 1)  then 'Y' else 'N' end is_ver_le_9_1,
+       case when version <= 9                                    then 'Y' else 'N' end is_ver_le_9_2,
+       case when version <= 9                                    then 'Y' else 'N' end is_ver_le_9,
+       case when version <  10 or (version = 10 and release = 1) then 'Y' else 'N' end is_ver_le_10_1,
+       case when version <= 10                                   then 'Y' else 'N' end is_ver_le_10_2,
+       case when version <= 10                                   then 'Y' else 'N' end is_ver_le_10,
+       case when version <  11 or (version = 11 and release = 1) then 'Y' else 'N' end is_ver_le_11_1,
+       case when version <= 11                                   then 'Y' else 'N' end is_ver_le_11_2,
+       case when version <= 11                                   then 'Y' else 'N' end is_ver_le_11,
+       case when version <  12 or (version = 12 and release = 1) then 'Y' else 'N' end is_ver_le_12_1,
+       case when version <= 12                                   then 'Y' else 'N' end is_ver_le_12_2,
+       case when version <= 12                                   then 'Y' else 'N' end is_ver_le_12,
+       case when version <= 18                                   then 'Y' else 'N' end is_ver_le_18,
+       -- Greater or Equal
+       case when version >= 9                                    then 'Y' else 'N' end is_ver_ge_9_1,
+       case when version >  9  or (version = 9 and release = 2)  then 'Y' else 'N' end is_ver_ge_9_2,
+       case when version >= 9                                    then 'Y' else 'N' end is_ver_ge_9,
+       case when version >= 10                                   then 'Y' else 'N' end is_ver_ge_10_1,
+       case when version >  10 or (version = 10 and release = 2) then 'Y' else 'N' end is_ver_ge_10_2,
+       case when version >= 10                                   then 'Y' else 'N' end is_ver_ge_10,
+       case when version >= 11                                   then 'Y' else 'N' end is_ver_ge_11_1,
+       case when version >  11 or (version = 11 and release = 2) then 'Y' else 'N' end is_ver_ge_11_2,
+       case when version >= 11                                   then 'Y' else 'N' end is_ver_ge_11,
+       case when version >= 12                                   then 'Y' else 'N' end is_ver_ge_12_1,
+       case when version >  12 or (version = 12 and release = 2) then 'Y' else 'N' end is_ver_ge_12_2,
+       case when version >= 12                                   then 'Y' else 'N' end is_ver_ge_12,
+       case when version >= 18                                   then 'Y' else 'N' end is_ver_ge_18
+from  (select to_number(substr(version,1,instr(version,'.')-1)) version,
+              to_number(substr(version,instr(version,'.')+1, instr(version,'.',1,2)-instr(version,'.')-1)) release
+         from v$instance);
 
-select
-decode('&&is_ver_le_9_1.'  ,'Y','--','N','') skip_ver_le_9_1,
-decode('&&is_ver_le_9_2.'  ,'Y','--','N','') skip_ver_le_9_2,
-decode('&&is_ver_le_9.'    ,'Y','--','N','') skip_ver_le_9,
-decode('&&is_ver_le_10_1.' ,'Y','--','N','') skip_ver_le_10_1,
-decode('&&is_ver_le_10_2.' ,'Y','--','N','') skip_ver_le_10_2,
-decode('&&is_ver_le_10.'   ,'Y','--','N','') skip_ver_le_10,
-decode('&&is_ver_le_11_1.' ,'Y','--','N','') skip_ver_le_11_1,
-decode('&&is_ver_le_11_2.' ,'Y','--','N','') skip_ver_le_11_2,
-decode('&&is_ver_le_11.'   ,'Y','--','N','') skip_ver_le_11,
-decode('&&is_ver_le_12_1.' ,'Y','--','N','') skip_ver_le_12_1,
-decode('&&is_ver_le_12_2.' ,'Y','--','N','') skip_ver_le_12_2,
-decode('&&is_ver_le_12.'   ,'Y','--','N','') skip_ver_le_12,
---
-decode('&&is_ver_ge_9_1.'  ,'Y','--','N','') skip_ver_ge_9_1,
-decode('&&is_ver_ge_9_2.'  ,'Y','--','N','') skip_ver_ge_9_2,
-decode('&&is_ver_ge_9.'    ,'Y','--','N','') skip_ver_ge_9,
-decode('&&is_ver_ge_10_1.' ,'Y','--','N','') skip_ver_ge_10_1,
-decode('&&is_ver_ge_10_2.' ,'Y','--','N','') skip_ver_ge_10_2,
-decode('&&is_ver_ge_10.'   ,'Y','--','N','') skip_ver_ge_10,
-decode('&&is_ver_ge_11_1.' ,'Y','--','N','') skip_ver_ge_11_1,
-decode('&&is_ver_ge_11_2.' ,'Y','--','N','') skip_ver_ge_11_2,
-decode('&&is_ver_ge_11.'   ,'Y','--','N','') skip_ver_ge_11,
-decode('&&is_ver_ge_12_1.' ,'Y','--','N','') skip_ver_ge_12_1,
-decode('&&is_ver_ge_12_2.' ,'Y','--','N','') skip_ver_ge_12_2,
-decode('&&is_ver_ge_12.'   ,'Y','--','N','') skip_ver_ge_12
-from dual;
+select -- Lower or Equal
+       decode('&&is_ver_le_9_1.'  ,'Y','--','N','') skip_ver_le_9_1,
+       decode('&&is_ver_le_9_2.'  ,'Y','--','N','') skip_ver_le_9_2,
+       decode('&&is_ver_le_9.'    ,'Y','--','N','') skip_ver_le_9,
+       decode('&&is_ver_le_10_1.' ,'Y','--','N','') skip_ver_le_10_1,
+       decode('&&is_ver_le_10_2.' ,'Y','--','N','') skip_ver_le_10_2,
+       decode('&&is_ver_le_10.'   ,'Y','--','N','') skip_ver_le_10,
+       decode('&&is_ver_le_11_1.' ,'Y','--','N','') skip_ver_le_11_1,
+       decode('&&is_ver_le_11_2.' ,'Y','--','N','') skip_ver_le_11_2,
+       decode('&&is_ver_le_11.'   ,'Y','--','N','') skip_ver_le_11,
+       decode('&&is_ver_le_12_1.' ,'Y','--','N','') skip_ver_le_12_1,
+       decode('&&is_ver_le_12_2.' ,'Y','--','N','') skip_ver_le_12_2,
+       decode('&&is_ver_le_12.'   ,'Y','--','N','') skip_ver_le_12,
+       decode('&&is_ver_le_18.'   ,'Y','--','N','') skip_ver_le_18,
+       -- Greater or Equal
+       decode('&&is_ver_ge_9_1.'  ,'Y','--','N','') skip_ver_ge_9_1,
+       decode('&&is_ver_ge_9_2.'  ,'Y','--','N','') skip_ver_ge_9_2,
+       decode('&&is_ver_ge_9.'    ,'Y','--','N','') skip_ver_ge_9,
+       decode('&&is_ver_ge_10_1.' ,'Y','--','N','') skip_ver_ge_10_1,
+       decode('&&is_ver_ge_10_2.' ,'Y','--','N','') skip_ver_ge_10_2,
+       decode('&&is_ver_ge_10.'   ,'Y','--','N','') skip_ver_ge_10,
+       decode('&&is_ver_ge_11_1.' ,'Y','--','N','') skip_ver_ge_11_1,
+       decode('&&is_ver_ge_11_2.' ,'Y','--','N','') skip_ver_ge_11_2,
+       decode('&&is_ver_ge_11.'   ,'Y','--','N','') skip_ver_ge_11,
+       decode('&&is_ver_ge_12_1.' ,'Y','--','N','') skip_ver_ge_12_1,
+       decode('&&is_ver_ge_12_2.' ,'Y','--','N','') skip_ver_ge_12_2,
+       decode('&&is_ver_ge_12.'   ,'Y','--','N','') skip_ver_ge_12,
+       decode('&&is_ver_ge_18.'   ,'Y','--','N','') skip_ver_ge_18
+from   dual;
 
 COL is_ver_le_9_1  clear
 COL is_ver_le_9_2  clear
@@ -121,6 +130,7 @@ COL is_ver_le_11   clear
 COL is_ver_le_12_1 clear
 COL is_ver_le_12_2 clear
 COL is_ver_le_12   clear
+COL is_ver_le_18   clear
 --
 COL is_ver_ge_9_1  clear
 COL is_ver_ge_9_2  clear
@@ -134,6 +144,7 @@ COL is_ver_ge_11   clear
 COL is_ver_ge_12_1 clear
 COL is_ver_ge_12_2 clear
 COL is_ver_ge_12   clear
+COL is_ver_ge_18   clear
 
 COL skip_ver_le_9_1  clear
 COL skip_ver_le_9_2  clear
@@ -147,6 +158,7 @@ COL skip_ver_le_11   clear
 COL skip_ver_le_12_1 clear
 COL skip_ver_le_12_2 clear
 COL skip_ver_le_12   clear
+COL skip_ver_le_18   clear
 --
 COL skip_ver_ge_9_1  clear
 COL skip_ver_ge_9_2  clear
@@ -160,6 +172,7 @@ COL skip_ver_ge_11   clear
 COL skip_ver_ge_12_1 clear
 COL skip_ver_ge_12_2 clear
 COL skip_ver_ge_12   clear
+COL skip_ver_ge_18   clear
 
 -------------------------------
 -- Set is_cdb variable. Result will be 'Y' or 'N'.
