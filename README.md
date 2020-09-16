@@ -66,4 +66,4 @@ Usage:
 
 
 ## Versions ##
-* v01 (2019-04-10) by Alex Zaballa
+* v01 (2020-09-16) by Alex Zaballa
