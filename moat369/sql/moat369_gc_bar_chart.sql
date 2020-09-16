@@ -10,10 +10,29 @@ DEF one_spool_filename = '&&spool_filename.'
 @@&&fc_def_empty_var. bar_minperc
 @@&&fc_set_value_var_nvl. 'bar_minperc' '&&bar_minperc.' '5'
 
+-- Define options
+@@&&fc_def_empty_var. chart_option1
+@@&&fc_def_empty_var. chart_option2
+@@&&fc_def_empty_var. chart_option3
+@@&&fc_def_empty_var. chart_option4
+@@&&fc_def_empty_var. chart_option5
+@@&&fc_def_empty_var. chart_option6
+@@&&fc_def_empty_var. chart_option7
+@@&&fc_def_empty_var. chart_option8
+
+@@&&fc_set_value_var_nvl. 'chart_option1' "&&chart_option1." "chartArea:{left:90, top:90, width:'85%', height:'&&bar_height.'},"
+@@&&fc_set_value_var_nvl. 'chart_option2' "&&chart_option2." "backgroundColor: {fill: 'white', stroke: '#336699', strokeWidth: 1},"
+@@&&fc_set_value_var_nvl. 'chart_option3' "&&chart_option3." "title: '&&section_id..&&report_sequence.. &&title.&&title_suffix.',"
+@@&&fc_set_value_var_nvl. 'chart_option4' "&&chart_option4." "titleTextStyle: {fontSize: 18, bold: false},"
+@@&&fc_set_value_var_nvl. 'chart_option5' "&&chart_option5." "legend: {position: 'none'},"
+@@&&fc_set_value_var_nvl. 'chart_option6' "&&chart_option6." "vAxis: {minValue: 0, title: '&&vaxis.', titleTextStyle: {fontSize: 16, bold: false}},"
+@@&&fc_set_value_var_nvl. 'chart_option7' "&&chart_option7." "hAxis: {title: '&&haxis.', titleTextStyle: {fontSize: 16, bold: false}},"
+@@&&fc_set_value_var_nvl. 'chart_option8' "&&chart_option8." "tooltip: {textStyle: {fontSize: 14}}"
+
 @@moat369_0j_html_topic_intro.sql &&one_spool_filename._bar_chart.html bar
 
 SPO &&one_spool_fullpath_filename. APP
-PRO <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+PRO <script type="text/javascript" src="&&moat369_sw_gchart_path."></script>
 
 -- chart header
 PRO    <script type="text/javascript" id="gchart_script">
@@ -57,7 +76,10 @@ BEGIN
   l_value := l_others;
   l_style := 'D3D3D3'; -- light gray
   l_tooltip := '('||l_others||'% of remaining data)';
-  DBMS_OUTPUT.PUT_LINE(',['''||l_bar||''', '||l_value||', '''||l_style||''', '''||l_tooltip||''']');
+  IF l_others > 0 AND &&bar_minperc. > 0 -- For non-percentage bar charts
+  THEN
+    DBMS_OUTPUT.PUT_LINE(',['''||l_bar||''', '||l_value||', '''||l_style||''', '''||l_tooltip||''']');
+  END IF;
 END;
 /
 SET SERVEROUT OFF;
@@ -74,14 +96,14 @@ COL row_num PRI
 PRO        ]);;
 PRO        
 PRO        var options = {
-PRO          chartArea:{left:90, top:90, width:'85%', height:'&&bar_height.'},
-PRO          backgroundColor: {fill: 'white', stroke: '#336699', strokeWidth: 1},
-PRO          title: '&&section_id..&&report_sequence.. &&title.&&title_suffix.',
-PRO          titleTextStyle: {fontSize: 18, bold: false},
-PRO          legend: {position: 'none'},
-PRO          vAxis: {minValue: 0, title: '&&vaxis.', titleTextStyle: {fontSize: 16, bold: false}}, 
-PRO          hAxis: {title: '&&haxis.', titleTextStyle: {fontSize: 16, bold: false}},
-PRO          tooltip: {textStyle: {fontSize: 14}}
+PRO                &&chart_option1.
+PRO                &&chart_option2.
+PRO                &&chart_option3.
+PRO                &&chart_option4.
+PRO                &&chart_option5.
+PRO                &&chart_option6.
+PRO                &&chart_option7.
+PRO                &&chart_option8.
 PRO        };;
 PRO
 PRO        var chart = new google.visualization.ColumnChart(document.getElementById('barchart'));;
@@ -104,6 +126,9 @@ SPO OFF
 @@&&fc_encode_html. &&one_spool_fullpath_filename.
 
 HOS zip -mj &&moat369_zip_filename. &&one_spool_fullpath_filename. >> &&moat369_log3.
+
+UNDEF chart_option1 chart_option2 chart_option3 chart_option4
+UNDEF chart_option5 chart_option6 chart_option7 chart_option8
 
 UNDEF bar_height bar_minperc
 

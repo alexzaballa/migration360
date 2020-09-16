@@ -57,7 +57,7 @@ remove_html_tags()
 
 while read -r line || [ -n "$line" ]
 do
-  v_ncols=$(echo "$line" | ${AWKCMD_CSV} --source '{a=csv_parse_record($0, separator, enclosure, csv); print a}')
+  v_ncols=$(${AWKCMD_CSV} --source '{a=csv_parse_record($0, separator, enclosure, csv); print a}' <<< "$line")
   if [ $v_head_ncols -ne $v_ncols ]
   then
     echo ERROR >> "${v_out_html}"

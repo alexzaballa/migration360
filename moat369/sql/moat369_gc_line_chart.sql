@@ -31,7 +31,7 @@ DEF one_spool_filename = '&&spool_filename.'
 @@moat369_0j_html_topic_intro.sql &&one_spool_filename._line_chart.html line
 
 SPO &&one_spool_fullpath_filename. APP;
-PRO <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+PRO <script type="text/javascript" src="&&moat369_sw_gchart_path."></script>
 
 -- chart header
 PRO    <script type="text/javascript" id="gchart_script">
@@ -127,7 +127,8 @@ BEGIN
       l_col_06, l_col_07, l_col_08, l_col_09, l_col_10,
       l_col_11, l_col_12, l_col_13, l_col_14, l_col_15;
       EXIT WHEN cur%NOTFOUND;
-      l_line := ', [new Date('||SUBSTR(l_end_time,1,4)||','||(TO_NUMBER(SUBSTR(l_end_time,6,2)) - 1)||','||SUBSTR(l_end_time,9,2)||','||SUBSTR(l_end_time,12,2)||','||SUBSTR(l_end_time,15,2)||',0)';
+      -- Month part is "-1" because 0=Jan,1=Feb,...
+      l_line := ', [new Date('||SUBSTR(l_end_time,1,4)||','||(TO_NUMBER(SUBSTR(l_end_time,6,2)) - 1)||','||TO_NUMBER(SUBSTR(l_end_time,9,2))||','||TO_NUMBER(SUBSTR(l_end_time,12,2))||','||TO_NUMBER(SUBSTR(l_end_time,15,2))||',0)';
       IF '&&tit_01.' IS NOT NULL THEN
         l_line := l_line||', '||l_col_01; 
       END IF;
@@ -209,10 +210,10 @@ PRO          legend: {position: 'right', textStyle: {fontSize: 12}},
 PRO          tooltip: {textStyle: {fontSize: 10}},
 PRO          hAxis: {title: '&&haxis.', gridlines: {count: -1}},
 PRO          vAxis: {title: '&&vaxis.', &&vbaseline. gridlines: {count: -1}}
-PRO        };
+PRO        };;
 PRO
-PRO        var chart = new google.visualization.&&chartype.(document.getElementById('chart_div'));
-PRO        chart.draw(data, options);
+PRO        var chart = new google.visualization.&&chartype.(document.getElementById('chart_div'));;
+PRO        chart.draw(data, options);;
 PRO      }
 PRO    </script>
 PRO
@@ -235,6 +236,9 @@ undef exec_sql_print
 @@&&fc_encode_html. &&one_spool_fullpath_filename.
 
 HOS zip -mj &&moat369_zip_filename. &&one_spool_fullpath_filename. >> &&moat369_log3.
+
+UNDEF tit_01 tit_02 tit_03 tit_04 tit_05 tit_06 tit_07 tit_08 tit_09 tit_10 tit_11 tit_12 tit_13 tit_14 tit_15
+UNDEF stacked haxis vaxis vbaseline chartype
 
 undef one_spool_line_chart_file
 

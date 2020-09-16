@@ -21,7 +21,7 @@ def 0k_var1 = '&&moat369_sw_output_fdr./&&0k_param1.'
 SPO &&0k_var1. APP
 PRO <pre>
 SPO &&0k_var1..tmp
-SET LIN 80
+SET LIN &&moat369_sw_desc_linesize.
 DESC &&main_table.
 SET HEA OFF LIN 32767
 SPO OFF

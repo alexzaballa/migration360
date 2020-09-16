@@ -18,7 +18,7 @@ DEF one_spool_filename = '&&spool_filename.'
 @@moat369_0j_html_topic_intro.sql &&one_spool_filename._treemap_chart.html treemap
 
 SPO &&one_spool_fullpath_filename. APP
-PRO <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+PRO <script type="text/javascript" src="&&moat369_sw_gchart_path."></script>
 
 -- chart header
 PRO    <script type="text/javascript" id="gchart_script">

@@ -46,7 +46,7 @@ v_count=0
 
 while read -r line || [ -n "$line" ]
 do
-  v_ncols=$(echo $line | $AWKCMD '{n=split($0, array, "'$v_sep'")} END{print n }')
+  v_ncols=$($AWKCMD '{n=split($0, array, "'$v_sep'")} END{print n }' <<< "$line")
   if [ $v_head_ncols -ne $v_ncols ]
   then
     echo ERROR
@@ -55,11 +55,11 @@ do
   $ECHO_E $v_line_o\\c
   if $v_firstline
   then
-    v_linerep=$(echo $line | $SEDCMD "s|$v_sep|${v_fl_col_tag_c}${v_col_sep}${v_fl_col_tag_o}|g")
+    v_linerep=$($SEDCMD "s|$v_sep|${v_fl_col_tag_c}${v_col_sep}${v_fl_col_tag_o}|g" <<< "$line")
     $ECHO_E ${v_fl_col_tag_o}${v_linerep}${v_fl_col_tag_c}\\c
     v_firstline=false
   else
-    v_linerep=$(echo $line | $SEDCMD "s|$v_sep|${v_al_col_tag_c}${v_col_sep}${v_al_col_tag_o}|g")
+    v_linerep=$($SEDCMD "s|$v_sep|${v_al_col_tag_c}${v_col_sep}${v_al_col_tag_o}|g" <<< "$line")
     $ECHO_E ${v_al_col_tag_o}${v_linerep}${v_al_col_tag_c}\\c
   fi
   $ECHO_E $v_line_c\\c

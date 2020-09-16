@@ -18,7 +18,7 @@ PRO ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- turing trace off
 ALTER SESSION SET SQL_TRACE = FALSE;
-@@&&moat369_0g.tkprof.sql
+@@&&skip_tkprof.moat369_0g_tkprof.sql
 
 PRO ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -31,27 +31,7 @@ PRO 2. Review &&moat369_main_report_nopath.
 SPO OFF;
 @@&&fc_spool_end.
 
--- cleanup
-SET HEA ON;
-SET LIN 80;
-SET NEWP 1;
-SET PAGES 14;
-SET LONG 80;
-SET LONGC 80;
-SET WRA ON;
-SET TRIMS OFF;
-SET TRIM OFF;
-SET TI OFF;
-SET TIMI OFF;
-SET ARRAY 15;
-SET NUM 10;
-SET NUMF "";
-SET SQLBL OFF;
-SET BLO ON;
-SET RECSEP WR;
-UNDEF 1
-
--- alert log (3 methods)
+-- Alert log (3 methods)
 COL db_name_upper NEW_V db_name_upper
 COL db_name_lower NEW_V db_name_lower
 COL background_dump_dest NEW_V background_dump_dest
@@ -79,7 +59,9 @@ HOS ls -1 &&moat369_sw_output_fdr./alert_*.log 2> &&moat369_log3. | while read l
 HOS if [ '&&moat369_d3_usage.' == 'Y' ]; then zip -j &&moat369_zip_filename. &&moat369_fdr_js./d3.min.js >> &&moat369_log3.; fi
 
 @@&&fc_def_empty_var. moat369_tf_usage
-HOS if [ '&&moat369_tf_usage.' == 'Y' ]; then cp -av &&moat369_fdr_js./tablefilter/ ./ >> &&moat369_log3.; zip -rm &&moat369_zip_filename. tablefilter/ >> &&moat369_log3.; fi 
+@@&&fc_clean_file_name. "moat369_log3" "moat369_log3_nopath" "PATH"
+--HOS if [ '&&moat369_tf_usage.' == 'Y' ]; then cp -av &&moat369_fdr_js./tablefilter/ &&moat369_sw_output_fdr./ >> &&moat369_log3.; cd &&moat369_sw_output_fdr./; zip -rm &&moat369_zip_filename_nopath. tablefilter/ >> &&moat369_log3_nopath.; fi 
+HOS if [ '&&moat369_tf_usage.' == 'Y' ]; then v_zipfdr=$(dirname "&&moat369_zip_filename."); cp -av &&moat369_fdr_js./tablefilter/ &&moat369_sw_output_fdr./ >> &&moat369_log3.; cd &&moat369_sw_output_fdr./; zip -rm $(cd - >/dev/null; cd "${v_zipfdr}"; pwd)/&&moat369_zip_filename_nopath. tablefilter/ >> &&moat369_log3_nopath.; fi 
 -- Fix above cmd as cur folder can be RO
 
 HOS if [ -z '&&moat369_pre_sw_key_file.' ]; then rm -f &&enc_key_file.; fi

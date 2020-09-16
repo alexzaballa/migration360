@@ -42,12 +42,11 @@ SELECT prev_sql_id moat369_prev_sql_id, TO_CHAR(prev_child_number) moat369_prev_
 SPO &&one_spool_fullpath_filename. APP
 -- footer
 PRO &&foot.
-SET LIN 80;
+SET LIN &&moat369_sw_desc_linesize.
 DESC &&main_table.
-SET HEA OFF;
-SET LIN 32767;
+SET HEA OFF LIN 32767
 PRINT sql_text_display;
-SET HEA ON;
+SET HEA ON
 PRO &&row_num. rows selected.
 
 PRO 

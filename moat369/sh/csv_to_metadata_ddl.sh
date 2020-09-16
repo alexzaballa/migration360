@@ -41,9 +41,9 @@ v_firstline=true
 
 while read -r line || [ -n "$line" ]
 do
-  v_type=$(echo $line | $AWKCMD '{n=split($0, array, "'$v_sep'")} END{print array['$v_field_type'] }')
-  v_owner=$(echo $line | $AWKCMD '{n=split($0, array, "'$v_sep'")} END{print array['$v_field_owner'] }')
-  v_name=$(echo $line | $AWKCMD '{n=split($0, array, "'$v_sep'")} END{print array['$v_field_name'] }')
+  v_type=$($AWKCMD '{n=split($0, array, "'$v_sep'")} END{print array['$v_field_type'] }' <<< "$line")
+  v_owner=$($AWKCMD '{n=split($0, array, "'$v_sep'")} END{print array['$v_field_owner'] }' <<< "$line")
+  v_name=$($AWKCMD '{n=split($0, array, "'$v_sep'")} END{print array['$v_field_name'] }' <<< "$line")
 #  read v_type v_owner v_name <<< $(echo $line | $AWKCMD -F"${v_sep}" '{print $'$v_field_type', $'$v_field_owner', $'$v_field_name'}')
 
   if $v_firstline && $v_ignore_header

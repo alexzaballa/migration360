@@ -8,7 +8,7 @@ DEF moat369_subsec_fl = '&2.'
 DEF moat369_subsec_nm = '&3.'
 UNDEF 1 2 3
 
-@@&&moat369_0g.tkprof.sql
+@@&&skip_tkprof.moat369_0g_tkprof.sql
 DEF section_id = '&&moat369_subsec_id.';
 DEF section_name = '&&moat369_subsec_nm.';
 EXEC DBMS_APPLICATION_INFO.SET_MODULE('&&moat369_prefix.','&&section_id.');
@@ -26,7 +26,8 @@ SPO OFF;
 -- HOS mkfifo &&sub_section_fifo.
 set define ^
 HOS [ '^^moat369_sw_enc_sql.' == 'Y' ] && (cat ^^moat369_sw_folder./^^moat369_subsec_fl. | openssl enc -d -aes256 -a -salt -pass file:^^moat369_enc_pub_file. > ^^sub_section_fifo.)
-HOS [ '^^moat369_sw_enc_sql.' != 'Y' ] && (echo "@@^^moat369_sw_folder./^^moat369_subsec_fl." > ^^sub_section_fifo.)
+-- HOS [ '^^moat369_sw_enc_sql.' != 'Y' ] && (echo "@@^^moat369_sw_folder./^^moat369_subsec_fl." > ^^sub_section_fifo.) Commented to reduce nested queries
+HOS [ '^^moat369_sw_enc_sql.' != 'Y' ] && (cat ^^moat369_sw_folder./^^moat369_subsec_fl. > ^^sub_section_fifo.)
 set define &
 
 @&&sub_section_fifo.

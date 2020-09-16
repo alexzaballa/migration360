@@ -6,8 +6,8 @@ SET FEED OFF
 SET ECHO OFF
 SET TIM OFF
 SET TIMI OFF
-DEF moat369_fw_vYYNN = 'v1902'
-DEF moat369_fw_vrsn  = '&&moat369_fw_vYYNN. (2019-01-17)'
+DEF moat369_fw_vYYNN = 'v2002'
+DEF moat369_fw_vrsn  = '&&moat369_fw_vYYNN. (2020-02-27)'
 
 -- Define all functions and files:
 @@moat369_fc_define_files.sql
@@ -164,6 +164,7 @@ select case WHEN '&&moat369_conf_encrypt_html.'   = 'ON' OR '&&moat369_conf_comp
 COL fc_convert_txt_to_html clear
 --
 @@&&fc_set_value_var_decode. 'fc_add_tablefilter' '&&moat369_conf_tablefilter.' 'Y' '&&fc_add_tablefilter.' '&&fc_skip_script.&&fc_add_tablefilter.'
+@@&&fc_set_value_var_decode. 'fc_add_sorttable'   '&&moat369_conf_tablefilter.' 'N' '&&fc_add_sorttable.'   '&&fc_skip_script.&&fc_add_sorttable.'
 
 @@&&fc_def_empty_var. moat369_pre_enc_pub_file
 @@&&fc_set_value_var_nvl. 'moat369_enc_pub_file' '&&moat369_pre_enc_pub_file.' '&&moat369_sw_base./&&moat369_sw_misc_fdr./&&moat369_sw_cert_file.'
@@ -258,8 +259,9 @@ END;
 PRINT moat369_sec_from;
 PRINT moat369_sec_to;
 
-COL moat369_0g NEW_V moat369_0g;
-SELECT CASE '&&moat369_conf_incl_tkprof.' WHEN 'Y' THEN 'moat369_0g_' ELSE '&&fc_skip_script.' END moat369_0g FROM DUAL;
+COL skip_tkprof NEW_V skip_tkprof
+SELECT CASE '&&moat369_conf_incl_tkprof.' WHEN 'Y' THEN '' ELSE '&&fc_skip_script.' END skip_tkprof FROM DUAL;
+COL skip_tkprof clear
 
 -- filename prefix
 COL moat369_prefix NEW_V moat369_prefix;
@@ -391,10 +393,19 @@ END;
 /
 
 -- tracing script in case it takes long to execute so we can diagnose it
-ALTER SESSION SET MAX_DUMP_FILE_SIZE = '1G';
-ALTER SESSION SET TRACEFILE_IDENTIFIER = "&&moat369_tracefile_identifier.";
---ALTER SESSION SET STATISTICS_LEVEL = 'ALL';
-ALTER SESSION SET EVENTS '10046 TRACE NAME CONTEXT FOREVER, LEVEL &&sql_trace_level.';
+@@&&fc_def_output_file. step_trace 'step_trace.sql'
+
+@@&&fc_spool_start.
+SPO &&step_trace.
+PRO ALTER SESSION SET MAX_DUMP_FILE_SIZE = '1G';;
+PRO ALTER SESSION SET TRACEFILE_IDENTIFIER = "&&moat369_tracefile_identifier.";;
+PRO ALTER SESSION SET EVENTS '10046 TRACE NAME CONTEXT FOREVER, LEVEL &&sql_trace_level.';;
+SPO OFF
+@@&&fc_spool_end.
+
+@@&&skip_tkprof.&&step_trace.
+HOS rm -f &&step_trace.
+UNDEF step_trace
 
 -- CPU cmd
 COL cmd_getcpu NEW_V cmd_getcpu
@@ -681,5 +692,7 @@ HOS zip -mj &&moat369_zip_filename. &&moat369_sw_output_fdr./LICENSE-3RD-PARTY.t
 
 HOS cp &&moat369_fdr_js./style.css  &&moat369_sw_output_fdr./&&moat369_style_css. >> &&moat369_log3.
 HOS zip -mj &&moat369_zip_filename. &&moat369_sw_output_fdr./&&moat369_style_css. >> &&moat369_log3.
+
+HOS if [ '&&moat369_conf_tablefilter.' == 'N' ]; then zip -j &&moat369_zip_filename. &&moat369_fdr_js./sorttable.js >> &&moat369_log3.; fi
 
 --WHENEVER SQLERROR CONTINUE;

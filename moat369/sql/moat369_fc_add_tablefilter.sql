@@ -16,6 +16,7 @@ HOS sh &&moat369_fdr_sh./add_thead_tag_html.sh '&&in_html_src_file.'
 
 SPO &&in_html_src_file. APP
 PRO #: click on a column heading to sort on it
+PRO <br>
 SPO OFF
 
 SPO &&in_html_src_file. APP

@@ -37,6 +37,7 @@
 @@&&fc_def_empty_var. moat369_sw_email
 @@&&fc_def_empty_var. moat369_sw_dbtool
 @@&&fc_def_empty_var. moat369_sw_enc_sql
+@@&&fc_def_empty_var. moat369_sw_gchart_path
 
 @@&&fc_set_value_var_nvl. 'moat369_sw_misc_fdr'   '&&moat369_sw_misc_fdr.' 'js'
 @@&&fc_set_value_var_nvl. 'moat369_sw_rpt_cols'   '&&moat369_sw_rpt_cols.' '7'
@@ -60,6 +61,8 @@
 
 @@&&fc_set_value_var_nvl. 'moat369_sw_enc_sql'  '&&moat369_sw_enc_sql.'  'N'
 @@&&fc_validate_variable. moat369_sw_enc_sql    Y_N
+
+@@&&fc_set_value_var_nvl. 'moat369_sw_gchart_path'  '&&moat369_sw_gchart_path.'  'https://www.gstatic.com/charts/loader.js'
 
 ---------------------------
 
@@ -248,3 +251,7 @@
 @@&&fc_validate_variable. moat369_conf_work_day_to    IS_NUMBER
 
 ---------------------------
+
+@@&&fc_def_empty_var.      moat369_sw_desc_linesize
+@@&&fc_set_value_var_nvl. 'moat369_sw_desc_linesize'  '&&moat369_sw_desc_linesize.'  '80'
+@@&&fc_validate_variable.  moat369_sw_desc_linesize   IS_NUMBER

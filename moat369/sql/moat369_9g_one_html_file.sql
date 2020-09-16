@@ -5,10 +5,13 @@ DEF one_spool_filename = '&&spool_filename.'
 
 -- Check mandatory variables
 @@&&fc_def_empty_var. one_spool_html_file
+@@&&fc_def_empty_var. one_spool_html_file_type
 @@&&fc_def_empty_var. one_spool_html_desc_table
 @@&&fc_set_value_var_nvl. 'one_spool_html_desc_table' '&&one_spool_html_desc_table.' 'N'
 
-@@moat369_0j_html_topic_intro.sql &&one_spool_filename..html html
+@@&&fc_set_value_var_nvl. one_spool_html_file_type '&&one_spool_html_file_type.' 'html'
+
+@@moat369_0j_html_topic_intro.sql &&one_spool_filename..html &&one_spool_html_file_type.
 
 HOS cat &&one_spool_html_file. >> &&one_spool_fullpath_filename.
 
@@ -22,7 +25,7 @@ UNDEF step_file
 SELECT prev_sql_id moat369_prev_sql_id, TO_CHAR(prev_child_number) moat369_prev_child_number FROM v$session WHERE sid = SYS_CONTEXT('USERENV', 'SID')
 /
 
-@@moat369_0k_html_topic_end.sql &&one_spool_filename..html html &&one_spool_html_desc_table. N
+@@moat369_0k_html_topic_end.sql &&one_spool_filename..html &&one_spool_html_file_type. &&one_spool_html_desc_table. N
 
 @@&&fc_encode_html. &&one_spool_fullpath_filename.
 
@@ -31,7 +34,6 @@ HOS zip -mj &&moat369_zip_filename. &&one_spool_fullpath_filename. >> &&moat369_
 
 HOS rm -f &&one_spool_html_file.
 
-UNDEF one_spool_html_file
-UNDEF one_spool_html_desc_table
+UNDEF one_spool_html_file one_spool_html_desc_table one_spool_html_file_type
 
 UNDEF one_spool_fullpath_filename

@@ -35,7 +35,7 @@ ORIG_ORACLE_SID=$ORACLE_SID
 ORIG_ORAENV_ASK=$ORAENV_ASK
 which oraenv >/dev/null || export PATH=$PATH:/usr/local/bin
 
-for INST in $($PRCCMD | $GRPCMD ora_pmo[n] | $SEDCMD 's/^ora_pmon_//' | $GRPCMD -v '$SEDCMD '); do
+for INST in $($PRCCMD | $GRPCMD ora_pmo[n] | $SEDCMD 's/^ora_pmon_//' | $GRPCMD -v "$SEDCMD "); do
   if [ $INST = "$( cat $ORATAB | $GRPCMD -v ^# | $GRPCMD -v ^$ | $AWKCMD -F: '{ print $1 }' | $GRPCMD $INST | head -1)" ]; then
     echo "$INST: instance name = db_unique_name (single instance database)"
     export ORACLE_SID=$INST; export ORAENV_ASK=NO; . oraenv

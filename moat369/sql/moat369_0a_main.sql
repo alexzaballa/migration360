@@ -2,7 +2,13 @@ STORE SET original_settings REPLACE
 @@moat369_0b_pre.sql
 DEF section_id = '0a'
 EXEC DBMS_APPLICATION_INFO.SET_MODULE('&&moat369_prefix.','&&section_id.')
-@@&&fc_load_file_ifexist. '&&moat369_sw_folder./&&moat369_sw_name._0a_pre.sql'
+
+@@&&fc_reset_defs.
+
+DEF moat369_skip_check_file = ''
+@@&&fc_check_file_exists. '&&moat369_sw_folder./&&moat369_sw_name._0a_pre.sql' 'moat369_skip_check_file' '' '&&fc_skip_script.'
+@@&&moat369_skip_check_file.&&moat369_sw_folder./&&moat369_sw_name._0a_pre.sql
+UNDEF moat369_skip_check_file
 
 -- Report # of columns
 VAR moat369_total_cols number
@@ -123,7 +129,13 @@ SPO OFF;
 
 DEF section_id = '0c'
 EXEC DBMS_APPLICATION_INFO.SET_MODULE('&&moat369_prefix.','&&section_id.')
-@@&&fc_load_file_ifexist. '&&moat369_sw_folder./&&moat369_sw_name._0b_post.sql'
+
+-- Load custom post if exists
+DEF moat369_skip_check_file = ''
+@@&&fc_check_file_exists. '&&moat369_sw_folder./&&moat369_sw_name._0b_post.sql' 'moat369_skip_check_file' '' '&&fc_skip_script.'
+@@&&moat369_skip_check_file.&&moat369_sw_folder./&&moat369_sw_name._0b_post.sql
+UNDEF moat369_skip_check_file
+
 @@moat369_0c_post.sql
 
 EXEC DBMS_APPLICATION_INFO.SET_MODULE(NULL,NULL);
