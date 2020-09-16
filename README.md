@@ -5,17 +5,21 @@ MIG360 is a tool to advise Database migrations.
 1. Unzip mig360.zip, navigate to the root mig360 directory, and connect as SYS, 
    DBA, or any User with Data Dictionary access:
 
+```
    $ unzip mig360.zip
    $ cd mig360
    $ sqlplus / as sysdba
+```
 
 2. Execute mig360.sql.
 
+```
    SQL> @mig360.sql
-
+```
 
 Usage: 
 
+```
 @mig360
 
 @mig360 T N
@@ -23,7 +27,7 @@ Usage:
 @mig360 T N 1-4
 
 @mig360 T Y 8
-
+```
 
 1st parameter: (T)uning pack, (D)iagnostic pack, (N)one
 
