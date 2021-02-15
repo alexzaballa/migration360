@@ -1327,6 +1327,7 @@ END;
 
 /*****************************************************************************************/
 --
+--adding NVL to con_id - 19.9 slowness
 
 DEF title = 'Tables with excessive wasted space';
 @@&&fc_main_table_name. '&&is_cdb.' 'CDB_TABLES' 'DBA_TABLES'
@@ -1375,8 +1376,8 @@ where
    s.owner = t.owner and
    s.table_name = t.table_name and
    x.tablespace_name = t.tablespace_name and
-   s.con_id = t.con_id and
-   x.con_id = t.con_id and
+   nvl(s.con_id,-1) = nvl(t.con_id,-1) and
+   nvl(x.con_id,-1) = nvl(t.con_id,-1) and
    t.owner not in &&exclusion_list. and
    t.owner not in &&exclusion_list2.
 group by
@@ -1470,5 +1471,3 @@ DEF skip_lch = 'Y';
 DEF skip_pch = 'Y';
 
 /*****************************************************************************************/
-
-
