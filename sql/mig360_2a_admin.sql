@@ -233,6 +233,7 @@ END;
 
 /*****************************************************************************************/
 --Orphaned Synonyms
+--adding NVL to con_id - 19.9 slowness
 
 DEF title = 'Orphaned Synonyms';
 @@&&fc_main_table_name. '&&is_cdb.' 'CDB_SYNONYMS' 'DBA_SYNONYMS'
@@ -263,7 +264,7 @@ SELECT /*+ &&top_level_hints. */ /* &&section_id..&&report_sequence. */
           from CDB_OBJECTS o
          where o.object_name = s.table_name
            and o.owner = s.table_owner
-           and o.con_id = s.con_id
+           and nvl(o.con_id,-1) = nvl(s.con_id,-1)
            )
    AND s.db_link IS NULL
    AND s.owner NOT IN &&exclusion_list.
