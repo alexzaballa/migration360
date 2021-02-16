@@ -28,6 +28,7 @@ END;
 
 /*****************************************************************************************/
 --Tables with Missing Stats
+--adding NVL to con_id - 19.9 slowness
 
 DEF title = 'Tables with Missing Stats';
 @@&&fc_main_table_name. '&&is_cdb.' 'CDB_TAB_STATISTICS' 'DBA_TAB_STATISTICS'
@@ -68,14 +69,14 @@ SELECT /*+ &&top_level_hints. */ /* &&section_id..&&report_sequence. */
    AND NOT (s.table_name LIKE '%TEMP' OR s.table_name LIKE '%\_TEMP\_%' ESCAPE '\')
    AND t.owner = s.owner
    AND t.table_name = s.table_name
-   AND t.con_id = s.con_id
+   AND nvl(t.con_id,-1) = nvl(s.con_id,-1)
    AND t.temporary = 'N'
    AND NOT EXISTS (
 SELECT NULL
   FROM CDB_external_tables e
  WHERE e.owner = s.owner
    AND e.table_name = s.table_name 
-   AND e.con_id = s.con_id
+   AND nvl(e.con_id,-1) = nvl(s.con_id,-1)
 )
  ORDER BY
        s.con_id, s.owner, s.table_name
@@ -87,6 +88,7 @@ END;
 
 /*****************************************************************************************/
 --Tables with Stale Stats
+--adding NVL to con_id - 19.9 slowness
 
 DEF title = 'Tables with Stale Stats';
 @@&&fc_main_table_name. '&&is_cdb.' 'CDB_TAB_STATISTICS' 'DBA_TAB_STATISTICS'
@@ -127,14 +129,14 @@ SELECT /*+ &&top_level_hints. */ /* &&section_id..&&report_sequence. */
    AND NOT (s.table_name LIKE '%TEMP' OR s.table_name LIKE '%\_TEMP\_%' ESCAPE '\')
    AND t.owner = s.owner
    AND t.table_name = s.table_name
-   AND t.con_id = s.con_id
+   AND nvl(t.con_id,-1) = nvl(s.con_id,-1)
    AND t.temporary = 'N'
    AND NOT EXISTS (
 SELECT NULL
   FROM CDB_external_tables e
  WHERE e.owner = s.owner
    AND e.table_name = s.table_name 
-   AND e.con_id = s.con_id
+   AND nvl(e.con_id,-1) = nvl(s.con_id,-1)
 )
  ORDER BY
        s.con_id, s.owner, s.table_name
@@ -146,6 +148,7 @@ END;
 
 /*****************************************************************************************/
 --Tables with Outdated Stats'
+--adding NVL to con_id - 19.9 slowness
 
 DEF title = 'Tables with Outdated Stats';
 @@&&fc_main_table_name. '&&is_cdb.' 'CDB_TAB_STATISTICS' 'DBA_TAB_STATISTICS'
@@ -186,14 +189,14 @@ SELECT /*+ &&top_level_hints. */ /* &&section_id..&&report_sequence. */
    AND NOT (s.table_name LIKE '%TEMP' OR s.table_name LIKE '%\_TEMP\_%' ESCAPE '\')
    AND t.owner = s.owner
    AND t.table_name = s.table_name
-   AND t.con_id = s.con_id
+   AND nvl(t.con_id,-1) = nvl(s.con_id,-1)
    AND t.temporary = 'N'
    AND NOT EXISTS (
 SELECT NULL
   FROM CDB_EXTERNAL_TABLES e
  WHERE e.owner = s.owner
    AND e.table_name = s.table_name
-   AND e.con_id = s.con_id 
+   AND nvl(e.con_id,-1) = nvl(s.con_id,-1)
 )
  ORDER BY
        s.con_id, s.owner, s.table_name
@@ -205,6 +208,7 @@ END;
 
 /*****************************************************************************************/
 --Tables with Locked Stats
+--adding NVL to con_id - 19.9 slowness
 
 DEF title = 'Tables with Locked Stats';
 @@&&fc_main_table_name. '&&is_cdb.' 'CDB_TAB_STATISTICS' 'DBA_TAB_STATISTICS'
@@ -239,7 +243,7 @@ SELECT /*+ &&top_level_hints. */ /* &&section_id..&&report_sequence. */
    AND s.stattype_locked IS NOT NULL
    AND s.table_name NOT LIKE 'BIN%'
    AND t.owner = s.owner
-   AND t.con_id = s.con_id
+   AND nvl(t.con_id,1) = nvl(s.con_id,-1)
    AND t.table_name = s.table_name
    AND e.owner(+) = s.owner
    AND e.con_id(+) = s.con_id
@@ -254,6 +258,7 @@ END;
 
 /*****************************************************************************************/
 --Global Temporary Tables with Stats
+--adding NVL to con_id - 19.9 slowness
 
 DEF title = 'Global Temporary Tables with Stats';
 @@&&fc_main_table_name. '&&is_cdb.' 'CDB_TAB_STATISTICS' 'DBA_TAB_STATISTICS'
@@ -285,7 +290,7 @@ SELECT /*+ &&top_level_hints. */ /* &&section_id..&&report_sequence. */
    AND s.last_analyzed IS NOT NULL
    AND s.table_name NOT LIKE 'BIN%'
    AND t.owner = s.owner
-   AND t.con_id = s.con_id
+   AND nvl(t.con_id,-1) = nvl(s.con_id,-1)
    AND t.table_name = s.table_name
    AND t.temporary = 'Y'
  ORDER BY
@@ -298,6 +303,7 @@ END;
 
 /*****************************************************************************************/
 --Temp Tables with Stats
+--adding NVL to con_id - 19.9 slowness
 
 DEF title = 'Temp Tables with Stats';
 @@&&fc_main_table_name. '&&is_cdb.' 'CDB_TAB_STATISTICS' 'DBA_TAB_STATISTICS'
@@ -338,14 +344,14 @@ SELECT /*+ &&top_level_hints. */ /* &&section_id..&&report_sequence. */
    AND (s.table_name LIKE '%TEMP' OR s.table_name LIKE '%\_TEMP\_%' ESCAPE '\')
    AND s.table_name NOT LIKE 'BIN%'
    AND t.owner = s.owner
-   AND t.con_id = s.con_id
+   AND nvl(t.con_id,-1) = nvl(s.con_id,-1)
    AND t.table_name = s.table_name
    AND NOT EXISTS (
 SELECT NULL
   FROM CDB_EXTERNAL_TABLES e
  WHERE e.owner = s.owner
    AND e.table_name = s.table_name 
-   AND e.con_id = s.con_id
+   AND nvl(e.con_id,-1) = nvl(s.con_id,-1)
 )
  ORDER BY
        s.con_id, s.owner, s.table_name
@@ -366,4 +372,3 @@ DEF title_suffix = '';
 EXEC :sql_text := '';
 
 /*****************************************************************************************/
-
