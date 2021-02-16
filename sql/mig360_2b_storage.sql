@@ -530,6 +530,7 @@ END;
 
 /*****************************************************************************************/
 --
+--changing CDB_OBJECTS to DBA - 19.9 slowness
 
 DEF title = 'Largest 200 Objects';
 @@&&fc_main_table_name. '&&is_cdb.' 'CDB_SEGMENTS' 'DBA_SEGMENTS'
@@ -805,19 +806,19 @@ SELECT so.con_id,
 ), top_200 AS (
 SELECT p.*,
        (SELECT object_id
-          FROM CDB_objects o
+          FROM DBA_objects o
          WHERE o.object_type = p.segment_type
            AND o.owner = p.owner
            AND o.object_name = p.segment_name
            AND o.object_type NOT LIKE '%PARTITION%'
-           AND o.con_id = p.con_id) object_id,
+           ) object_id,
        (SELECT data_object_id
-          FROM CDB_objects o
+          FROM DBA_objects o
          WHERE o.object_type = p.segment_type
            AND o.owner = p.owner
            AND o.object_name = p.segment_name
            AND o.object_type NOT LIKE '%PARTITION%'
-           AND o.con_id = p.con_id) data_object_id,
+           ) data_object_id,
        (SELECT SUM(p2.bytes_perc) FROM top_200_pre p2 WHERE p2.rank <= p.rank) bytes_perc_cum
   FROM top_200_pre p
 ), top_200_totals AS (
@@ -1471,3 +1472,5 @@ DEF skip_lch = 'Y';
 DEF skip_pch = 'Y';
 
 /*****************************************************************************************/
+
+
