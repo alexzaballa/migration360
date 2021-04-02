@@ -32,6 +32,7 @@
 4b,pga_stats.sql,'Program Global Area (PGA) Statistics History'
 4c,mem_stats.sql,'Memory Statistics History'
 4d,time_model.sql,'System Time Model'
+4e,sysmetric_history.sql,'System Metric History per Snap Interval'
 --
 5a,ash.sql,'Active Session History (ASH)'
 --
